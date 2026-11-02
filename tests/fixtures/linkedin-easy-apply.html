@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Easy Apply step (fixture)</title>
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .radio-input { position: absolute; opacity: 0; width: 16px; height: 16px; }
+  .typeahead { list-style: none; margin: 0; padding: 0; border: 1px solid #ccc; }
+  .typeahead[hidden] { display: none; }
+  label, legend { display: block; margin-top: 8px; }
+</style>
+</head>
+<body>
+<!-- Mimics a LinkedIn Easy Apply modal step: label[for], doubled screen-reader labels, aria-describedby hints,
+     a radio fieldset with a legend, selects with "Select an option", a city typeahead and a Follow checkbox. -->
+<div role="dialog" aria-modal="true" aria-labelledby="dlg-title" class="jobs-easy-apply-modal">
+  <h2 id="dlg-title">Apply to Example Co</h2>
+  <form id="easy-apply-form" action="/submit" method="post">
+    <div class="fb-dash-form-element">
+      <label for="first-name"><span aria-hidden="true">First name</span><span class="visually-hidden">First name</span></label>
+      <input id="first-name" type="text" required value="Prefilled">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="last-name"><span aria-hidden="true">Last name</span><span class="visually-hidden">Last name</span></label>
+      <input id="last-name" type="text" required>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="email-select">
+        <span aria-hidden="true">Email address</span>
+        <span class="visually-hidden">Email address</span>
+      </label>
+      <select id="email-select" required aria-required="true">
+        <option value="">Select an option</option>
+        <option value="e1">test.user@example.com</option>
+      </select>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="cc-select">Phone country code</label>
+      <select id="cc-select" required>
+        <option>Select an option</option>
+        <option>United States (+1)</option>
+        <option selected>India (+91)</option>
+      </select>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="phone">
+        <span aria-hidden="true">Mobile phone number</span>
+        <span class="visually-hidden">Mobile phone number</span>
+      </label>
+      <input id="phone" type="text" required aria-describedby="phone-error">
+      <div id="phone-error" class="artdeco-inline-feedback" role="alert"></div>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="city"><span aria-hidden="true">City</span><span class="visually-hidden">City</span></label>
+      <input id="city" type="text" role="combobox" aria-autocomplete="list" aria-required="true" autocomplete="off">
+      <ul id="city-suggestions" class="typeahead" role="listbox" hidden>
+        <li role="option" id="city-opt-0">Hyderabad, Telangana, India</li>
+        <li role="option" id="city-opt-1">Hyderabad, Sindh, Pakistan</li>
+      </ul>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="react-years">
+        <span aria-hidden="true">How many years of work experience do you have with React.js?</span>
+        <span class="visually-hidden">How many years of work experience do you have with React.js?</span>
+      </label>
+      <input id="react-years" type="text" required aria-describedby="react-years-hint">
+      <span id="react-years-hint">Enter a whole number between 0 and 99</span>
+    </div>
+    <fieldset class="fb-dash-form-element" data-test-form-builder-radio-button-form-component="true">
+      <legend>
+        <span aria-hidden="true">Are you comfortable working in a hybrid setting?</span>
+        <span class="visually-hidden">Are you comfortable working in a hybrid setting?</span>
+      </legend>
+      <div><input class="radio-input" type="radio" id="hybrid-yes" name="hybrid" value="Yes" required><label for="hybrid-yes">Yes</label></div>
+      <div><input class="radio-input" type="radio" id="hybrid-no" name="hybrid" value="No" required><label for="hybrid-no">No</label></div>
+    </fieldset>
+    <div class="fb-dash-form-element">
+      <label for="ts-exp"><span aria-hidden="true">Do you have experience with TypeScript?</span><span class="visually-hidden">Do you have experience with TypeScript?</span></label>
+      <select id="ts-exp" required>
+        <option value="Select an option">Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="why">Why do you want to work at Example Co?</label>
+      <textarea id="why" required></textarea>
+    </div>
+    <div>
+      <input type="checkbox" id="follow-company-checkbox" checked>
+      <label for="follow-company-checkbox">Follow Example Co to stay up to date with their page.</label>
+    </div>
+    <div>
+      <input type="checkbox" id="remember">
+      <label for="remember">Remember these answers</label>
+    </div>
+    <footer>
+      <button type="button" aria-label="Dismiss">Dismiss</button>
+      <button type="button" aria-label="Continue to next step">Next</button>
+      <button type="submit" aria-label="Submit application">Submit application</button>
+    </footer>
+  </form>
+</div>
+<script>
+  const city = document.getElementById('city');
+  const list = document.getElementById('city-suggestions');
+  city.addEventListener('input', () => { list.hidden = !city.value; });
+  list.addEventListener('click', (e) => {
+    const opt = e.target.closest('[role="option"]');
+    if (!opt) return;
+    city.value = opt.textContent.trim();
+    list.hidden = true;
+  });
+</script>
+</body>
+</html>

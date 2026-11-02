@@ -1,0 +1,108 @@
+# Copy to config.yaml and fill in every TODO (or run /setup in Claude Code, which asks you the questions).
+# config.yaml stays on your machine (it's in .gitignore). The agent refuses to run while any value is TODO.
+
+chrome:
+  cdpUrl: http://127.0.0.1:9333            # remote debugging port for the agent Chrome; change it if 9333 is taken
+  # executablePath: auto-detected. Set it only if Chrome is somewhere unusual, e.g.
+  #   macOS:   /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+  #   Windows: C:/Program Files/Google/Chrome/Application/chrome.exe
+  #   Linux:   /usr/bin/google-chrome
+  userDataDir: ~/job-agent-chrome          # dedicated agent profile, separate from your normal Chrome
+
+telegram:
+  enabled: true
+  botToken: "TODO"                         # from @BotFather; paste it here yourself
+  chatId: ""                               # message your bot, then `npm run telegram -- --save`
+  dailySummaryAfter: "19:30"               # first run after this time sends the whole-day summary
+
+ollama:                                    # optional local model for questions the profile clearly answers
+  enabled: false
+  url: http://127.0.0.1:11434
+  model: llama3.1:8b
+
+profile:
+  firstName: TODO
+  lastName: TODO
+  email: "TODO"                            # the email your job-site accounts use
+  countryCode: "+91"
+  phone: "TODO"                            # without the country code
+  city: TODO
+  currentCompany: TODO
+  currentTitle: TODO
+  previousEmployers: []                    # earlier companies, for "have you worked at X before?"
+  totalExperienceYears: TODO               # e.g. 3.5
+  skillYears:                              # whole years per skill, for "how many years of X?" questions
+    JavaScript: TODO
+    TypeScript: TODO
+    React: TODO
+  noticePeriodDays: TODO                   # 0 if you can join immediately
+  currentCtcLpa: TODO                      # in lakhs per annum, e.g. 12
+  expectedCtcLpa: TODO
+  willingToRelocate: true
+  okWithOnsite: true
+  linkedinUrl: ""
+  githubUrl: ""
+  portfolioUrl: ""
+  highestDegree: TODO                      # e.g. B.Tech, B.E., M.Tech, MCA
+  fieldOfStudy: []                         # accepted names in order, e.g. [Computer Science, Computer Science and Engineering]
+  graduationYear: TODO
+  summary: ""                              # only used when ollama.enabled
+
+customAnswers:                             # regex on question text -> answer; checked before the profile rules
+  - { match: "how did you hear", answer: "LinkedIn" }
+
+templates:                                 # placeholders: {firstName} {company} {role}; keep each under ~600 characters
+  workatastartup: TODO                     # message to the founder, e.g. who you are, what you've built, why this role
+  wellfound: TODO                          # answer to "What interests you about working for this company?"
+
+filters:
+  # A job is considered when its title contains one of these (substring match).
+  includeTitleKeywords: [frontend, front end, front-end, react, angular, javascript, ui developer,
+    ui engineer, full stack, fullstack, full-stack, software engineer, software developer, sde,
+    web developer, node, software development engineer, mern, mean stack]
+  # ...and skipped when it contains one of these (whole words).
+  excludeTitleKeywords: [senior staff, staff engineer, principal, lead, manager, architect,
+    director, head, intern, trainee, android, ios, qa, devops, salesforce, sap,
+    sde 3, sde-3, sde iii, sde-iii, sde3, engineer iii, engineer 3, sdet, test engineer]
+  excludeCompanies: []                     # always include your current employer
+  locations: [TODO]                        # cities you'd work in, lower case; add "remote" if you want remote jobs
+  maxRequiredExperience: 5                 # skip a job only when it asks for more than this many years minimum
+
+limits:
+  dailyCap: { linkedin: 15, naukri: 25, instahyre: 30, wellfound: 15, workatastartup: 10 }
+  maxJobsToScanPerSite: 60
+  delayBetweenAppliesMs: [20000, 60000]
+  actionDelayMs: [500, 2000]
+  parallelSites: false                     # true runs all sites at once (faster)
+
+schedule:
+  times: ["08:00", "11:30", "15:00", "20:00"]   # local time; re-run `npm run schedule:install` after changing
+
+# enabled: false skips the site. live: false means dry run (nothing is submitted) even without --dry-run.
+# Set live: true per site only after you've watched a dry run on it.
+sites:
+  linkedin:
+    enabled: true
+    live: false
+    discoveryUrls:
+      - https://www.linkedin.com/jobs/collections/recommended/
+  naukri:
+    enabled: true
+    live: false
+    discoveryUrls:
+      - https://www.naukri.com/mnjuser/recommendedjobs
+  instahyre:
+    enabled: true
+    live: false
+    discoveryUrls:
+      - https://www.instahyre.com/candidate/opportunities/
+  wellfound:
+    enabled: true
+    live: false
+    discoveryUrls:
+      - https://wellfound.com/jobs               # uses the search filters saved in your Wellfound account
+  workatastartup:
+    enabled: true
+    live: false
+    discoveryUrls:
+      - https://www.workatastartup.com/companies # paste your filtered URL (role, location) from the site

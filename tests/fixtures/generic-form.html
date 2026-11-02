@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Generic apply form (fixture)</title>
+<style>
+  .row { margin: 8px 0; }
+  .chip-input { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+<!-- Mimics a Naukri-like / generic company form: wrapping labels, aria-label, "*" markers, a pre-filled field,
+     nearby-text labels, a radio group without a fieldset, a "-- Choose --" select, a required terms checkbox,
+     an optional unknown question, a disabled field and an unknown required question. -->
+<form id="apply-form" action="/apply" method="post">
+  <div class="row"><label>Full Name * <input type="text" name="fullname"></label></div>
+  <div class="row"><input type="email" name="em" aria-label="Email ID" required></div>
+  <div class="row"><label>Current Location <input type="text" name="loc" value="Bengaluru"></label></div>
+  <div class="row"><span class="lbl">Current CTC (in lakhs) *</span><span><input type="number" name="ctc"></span></div>
+  <div class="row notice">
+    <p>Notice Period</p>
+    <label><input type="radio" name="np" value="0">Immediate</label>
+    <label><input type="radio" name="np" value="15">15 Days or less</label>
+    <label><input type="radio" name="np" value="30">1 Month</label>
+    <label><input type="radio" name="np" value="60">2 Months</label>
+  </div>
+  <div class="row">
+    <label for="qual">Highest Qualification</label>
+    <select id="qual" name="qual">
+      <option value="">-- Choose --</option>
+      <option value="btech">B.Tech/B.E.</option>
+      <option value="mtech">M.Tech</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="relocate">Willing to relocate? (optional)</label>
+    <select id="relocate" name="relocate">
+      <option value="">Choose</option>
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="q9">Describe your biggest achievement *</label>
+    <textarea id="q9" name="q9"></textarea>
+  </div>
+  <div class="row">
+    <label for="q10">Anything else we should know? (optional)</label>
+    <input id="q10" type="text" name="q10">
+  </div>
+  <div class="row"><label>Referral code <input type="text" name="ref" disabled required></label></div>
+  <div class="row"><label><input type="checkbox" name="terms" required> I agree to the terms and conditions</label></div>
+  <div class="row"><label><input type="checkbox" name="news"> Send me job alerts</label></div>
+  <div class="row"><button type="submit">Apply</button><button type="button">Save for later</button></div>
+</form>
+</body>
+</html>

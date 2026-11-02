@@ -1,0 +1,36 @@
+{
+  "name": "job-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "chrome": "tsx src/cli/chrome.ts",
+    "apply": "tsx src/cli/apply.ts",
+    "dry-run": "tsx src/cli/apply.ts --dry-run",
+    "review": "tsx src/cli/review.ts",
+    "telegram": "tsx src/cli/telegram.ts",
+    "inspect": "tsx src/cli/inspect.ts",
+    "setup:check": "tsx src/cli/setup-check.ts",
+    "schedule:install": "tsx src/cli/schedule.ts install",
+    "schedule:uninstall": "tsx src/cli/schedule.ts uninstall",
+    "schedule:status": "tsx src/cli/schedule.ts status",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "playwright-core": "^1.64.1",
+    "yaml": "^2.9.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
